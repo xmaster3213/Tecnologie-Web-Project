@@ -1,0 +1,57 @@
+body {
+  display: flex;
+  height: 100vh;
+  background-color: #F1F1F1;
+}
+
+.mdc-drawer-app-content {
+  flex: auto;
+  overflow: auto;
+  position: relative;
+}
+
+.main-content {
+  overflow: auto;
+  height: 100%;
+}
+
+.app-bar {
+  position: absolute;
+}
+
+.mdc-top-app-bar {
+  z-index: 7;
+}
+
+.avatar {
+  margin-top: 20px;
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+  
+a {
+  text-decoration: none;
+}
+
+hr.solid {
+  border: 0;
+  border-top: 1px solid #eee;
+}
+
+.buttons .material-icons {
+  font-size: 30px;
+}
+
+.buttons span {
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.mdc-list-item {
+  padding: 5px 16px;
+}
