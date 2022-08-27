@@ -33,7 +33,7 @@ class SaleModel extends Database {
       // send notification to the buyer that the item was boght succesfully
       $this->action(
         "INSERT INTO notification (recipient, description, date, time)
-        VALUES (?, 'The transaction was successfull and the item in currently beeing prepared for delivery', CURRENT_DATE(), CURRENT_TIME());", ["s", [$username]]
+        VALUES (?, 'The transaction was successfull and the item is currently beeing prepared for delivery', CURRENT_DATE(), CURRENT_TIME());", ["s", [$username]]
       );
 
       // update the quantity
