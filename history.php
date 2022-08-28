@@ -36,5 +36,6 @@
   });
   changePageTitle("History");
   renderHistory();
+  setActiveListElement("list-item-history");
 </script>
 

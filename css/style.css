@@ -138,6 +138,13 @@ div.card > div.card-info > span.price {
   grid-area: zoomed-card-description;
   overflow-y: scroll;
   max-height: 150px;
+  -ms-overflow-style: none;  /* Hide scrollbar for IE and Edge */
+  scrollbar-width: none;  /* Hide scrollbar for Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.zoomed-card-description::-webkit-scrollbar {
+  display: none;
 }
 
 .zoomed-card-actions {
@@ -208,8 +215,7 @@ form label {
 }
 
 .card-header, .notifications-card-header {
-  height: 20px;
-  padding-left: 5px;
+  padding: 5px;
   color: white;
   padding-left: 5px;
   border-radius: 5px 5px 0 0;

@@ -24,17 +24,17 @@
   <hr class="solid">
   <div class="mdc-drawer__content">
     <div class="mdc-list buttons">
-      <a class="mdc-list-item mdc-list-item--activated" href="home.php" aria-current="page">
+      <a id="list-item-home" class="mdc-list-item" href="home.php" aria-current="page">
         <span class="mdc-list-item__ripple"></span>
         <i class="material-icons mdc-list-item__graphic" aria-hidden="true">home</i>
         <span class="mdc-list-item__text">Home</span>
       </a>
-      <a class="mdc-list-item" href="sell.php">
+      <a id="list-item-sell" class="mdc-list-item" href="sell.php">
         <span class="mdc-list-item__ripple"></span>
         <i class="material-icons mdc-list-item__graphic" aria-hidden="true">sell</i>
         <span class="mdc-list-item__text">Sell</span>
       </a>
-      <a class="mdc-list-item" href="history.php">
+      <a id="list-item-history" class="mdc-list-item" href="history.php">
         <span class="mdc-list-item__ripple"></span>
         <i class="material-icons mdc-list-item__graphic" aria-hidden="true">history</i>
         <span class="mdc-list-item__text">History</span>

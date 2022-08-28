@@ -44,4 +44,5 @@
   });
   changePageTitle("Cart");
   renderCart();
+  setActiveListElement("list-item-cart");
 </script>

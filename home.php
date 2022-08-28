@@ -37,4 +37,5 @@
   });
   changePageTitle("Home");
   renderHome();
+  setActiveListElement("list-item-home");
 </script>

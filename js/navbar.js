@@ -10,6 +10,7 @@ async function loadProfile() {
     });
     const arrUser = await response.json();
     user = arrUser[0];
+    console.log(user)
     window.sessionStorage.setItem('profile',JSON.stringify(user));
   } else {
     user = JSON.parse(user);
@@ -236,6 +237,18 @@ const openNotifications = async (e) => {
     };
   }
 }
+
+function setActiveListElement(elementID) {
+  const elements = document.getElementsByClassName('mdc-list-item');
+  for (const element of elements) {
+    element.classList.remove('mdc-list-item--activated');
+  }
+  if (elementID != null) {
+    document.getElementById(elementID).classList.add('mdc-list-item--activated');
+  }
+}
+
+
 
 {/* <header id="navbar" class="mdc-top-app-bar app-bar mdc-top-app-bar--fixed" id="app-bar">
   <div class="mdc-top-app-bar__row">

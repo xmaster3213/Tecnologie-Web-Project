@@ -92,8 +92,7 @@ const onAddToCartClick = async (e) => {
     }
   }
   if(product.quantity <= 0 || productInCart >= product.quantity) {
-    e.currentTarget.style.backgroundColor = "#FF7F7F";
-    e.currentTarget.removeEventListener('click', onAddToCartClick);
+    e.currentTarget.disabled = true;
   } else {
     cart.addElement(product);
   }
@@ -145,6 +144,7 @@ const onConfirmPurchaseClick = async (e) => {
 }
 
 const onEditProductClick = async (e) => {
+  console.log('edit');
   const url = new URL(window.location.href);
   if (url.searchParams.has('id')) {
     const tempUrl = new URL('http://localhost/rest_api.php/product/edit');
@@ -160,11 +160,11 @@ const onEditProductClick = async (e) => {
     formData.append('image', imageInput.value);
     const quantityInput = document.getElementById('quantity');
     formData.append('quantity', quantityInput.value);
-    await fetch(tempUrl, {
+    const res = await fetch(tempUrl, {
       method: 'POST',
       body: formData
     });
-    window.location.href = 'http://localhost/sell.php';
+    res.ok ? window.location.href = 'http://localhost/sell.php' : aler('Error editing product');
   }
 }
 
@@ -182,11 +182,11 @@ const onAddProductClick = async (e) => {
   formData.append('image', imageInput.value);
   const quantityInput = document.getElementById('quantity');
   formData.append('quantity', quantityInput.value);
-  await fetch(url, {
+  const res = await fetch(url, {
     method: "POST",
     body: formData
   })
-  window.location.href = 'http://localhost/sell.php';
+  res.ok ? window.location.href = 'http://localhost/sell.php' : alert('Error adding product');
 }
 
 const onEditProfileClick = async (e) => {
@@ -201,11 +201,21 @@ const onEditProfileClick = async (e) => {
   const imageInput = document.getElementById('image');
   formData.append('image', imageInput.value);
   formData.append('username', window.localStorage.getItem('username'));
-  await fetch(url, {
+  const res = await fetch(url, {
     method: 'POST',
     body: formData
   });
-  window.location.href = 'http://localhost/home.php';
+  if (res.ok) {
+    window.sessionStorage.setItem('profile', JSON.stringify({
+      credit_card_number: creditCardInput.value,
+      email: emailInput.value,
+      image: imageInput.value,
+      password: passwordInput.value
+    }));
+    window.location.href = 'http://localhost/home.php';
+  } else {
+    alert('Error editing profile');
+  }
 }
 
 const onRegisterClick = async (e) => {
@@ -475,11 +485,7 @@ function changePageTitle(title) {
 }
 
 function initializeLogin() {
-  $('#form').submit(function(event) {
-    event.preventDefault();
-  });
-  const button = document.getElementById("login");
-  button.addEventListener('click', onLoginClick);
+  $('#form').submit(onLoginClick);
   const userInput = document.getElementById("username");
   const user = window.localStorage.getItem('username');
   if (user != null) {
@@ -492,20 +498,12 @@ function initializeLogin() {
 }
 
 function initializeRegister() {
-  $('#form').submit(function(event) {
-    event.preventDefault();
-  });
-  const button = document.getElementById("register");
-  button.addEventListener('click', onRegisterClick);
+  $('#form').submit(onRegisterClick);
 }
 
 async function initializeProfile() {
   checkLogged();
-  $('#form').submit(function(event) {
-    event.preventDefault();
-  });
-  const button = document.getElementById('save');
-  button.addEventListener('click', onEditProfileClick);
+  $('#form').submit(onEditProfileClick);
   const user = JSON.parse(window.sessionStorage.getItem('profile'));
   const passwordInput = document.getElementById('password');
   passwordInput.value = user.password;
@@ -523,10 +521,6 @@ async function initializeProfile() {
 
 async function initializeEditproduct() {
   checkLogged();
-  $('#form').submit(function(event) {
-    event.preventDefault();
-  });
-  const button = document.getElementById('save');
   const currentUrl = new URL(window.location.href);
   if (currentUrl.searchParams.has('id')) {
     const tempUrl = new URL('http://localhost/rest_api.php/product/info');
@@ -558,8 +552,8 @@ async function initializeEditproduct() {
       // product doesn't exist or error in the request
       window.location.href('http://localhost/sell.php');
     }
-    button.addEventListener('click', onEditProductClick);
+    $('#form').submit(onEditProductClick);
   } else {
-    button.addEventListener('click', onAddProductClick);
+    $('#form').submit(onAddProductClick);
   }
 }

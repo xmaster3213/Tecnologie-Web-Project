@@ -102,7 +102,10 @@ const getCardContent = (page, name, description, price, product_image, quantity,
   buttonLable.classList.add("mdc-button__label");
   buttonLable.innerText = action;
   buttonElement.appendChild(buttonLable);
-  buttonElement.addEventListener('click', fun)
+  if (page == "HOME" && quantity == 0) {
+    buttonElement.disabled = true;
+  }
+  buttonElement.addEventListener('click', fun);
   zoomedCardContainer.appendChild(buttonElement);
   return zoomedCardContainer;
 }

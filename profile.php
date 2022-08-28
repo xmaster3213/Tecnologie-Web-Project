@@ -18,7 +18,7 @@
   <?php require_once("navbar_logged.php"); ?>
   <div id="modal-div" class="mdc-drawer-app-content mdc-top-app-bar--fixed-adjust">
     <main class="main-content center" id="main-content">
-      <form id="form">
+      <form id="form" action="">
         <div>
           <label for="password" class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon">
             <span class="mdc-notched-outline">
@@ -70,7 +70,7 @@
           </label>
         </div>
         <div>
-          <button id="save" class="mdc-button mdc-button--raised">
+          <button id="save" type="submit" class="mdc-button mdc-button--raised">
             <span class="mdc-button__ripple"></span>
             <span class="mdc-button__touch"></span>
             <span class="mdc-button__label">Edit</span>
@@ -104,4 +104,5 @@
   });
   changePageTitle("Profile");
   initializeProfile();
+  setActiveListElement(null);
 </script>

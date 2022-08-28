@@ -18,7 +18,7 @@
   <?php require_once("navbar_not_logged.php"); ?>
   <div id="modal-div" class="mdc-drawer-app-content mdc-top-app-bar--fixed-adjust">
     <main class="main-content center" id="main-content">
-      <form id="form">
+      <form id="form" action="">
         <div>
           <label for="username" class="mdc-text-field mdc-text-field--outlined">
             <span class="mdc-notched-outline">
@@ -28,7 +28,7 @@
               </span>
               <span class="mdc-notched-outline__trailing"></span>
             </span>
-            <input id="username" type="text" class="mdc-text-field__input" aria-labelledby="my-label-id">
+            <input id="username" type="text" class="mdc-text-field__input" aria-labelledby="my-label-id" required>
           </label>
         </div>
         <div>
@@ -42,7 +42,7 @@
             </span>
             <input id="password" type="password" class="mdc-text-field__input" aria-labelledby="my-label-id">
             <i id="password-visibility-icon" class="material-icons mdc-text-field__icon mdc-text-field__icon--trailing"
-              tabindex="0" role="button" onclick="togglePasswordVisibility()">visibility_off</i>
+              tabindex="0" role="button" onclick="togglePasswordVisibility()" required>visibility_off</i>
           </label>
         </div>
         <div>
@@ -54,7 +54,7 @@
               </span>
               <span class="mdc-notched-outline__trailing"></span>
             </span>
-            <input id="email" type="email" class="mdc-text-field__input" aria-labelledby="my-label-id">
+            <input id="email" type="email" class="mdc-text-field__input" aria-labelledby="my-label-id" required>
           </label>
         </div>
         <div>
@@ -66,7 +66,7 @@
               </span>
               <span class="mdc-notched-outline__trailing"></span>
             </span>
-            <input id="credit-card" type="text" minlength="16" maxlength="16" class="mdc-text-field__input" aria-labelledby="my-label-id">
+            <input id="credit-card" type="text" minlength="16" maxlength="16" class="mdc-text-field__input" aria-labelledby="my-label-id" required>
           </label>
         </div>
         <div>
@@ -78,11 +78,11 @@
               </span>
               <span class="mdc-notched-outline__trailing"></span>
             </span>
-            <input id="image" type="url" class="mdc-text-field__input" aria-labelledby="my-label-id">
+            <input id="image" type="url" class="mdc-text-field__input" aria-labelledby="my-label-id" required>
           </label>
         </div>
         <div>
-          <button id="register" class="mdc-button mdc-button--raised">
+          <button id="register" type="submit" class="mdc-button mdc-button--raised">
             <span class="mdc-button__ripple"></span>
             <span class="mdc-button__touch"></span>
             <span class="mdc-button__label">Register</span>

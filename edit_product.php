@@ -18,7 +18,7 @@
   <div id="modal-div" class="mdc-drawer-app-content mdc-top-app-bar--fixed-adjust">
     <main class="main-content center" id="main-content">
       <!-- input form -->
-      <form id="form">
+      <form id="form" action="">
         <!-- title -->
         <div>
           <h1 class="center-text">Edit Product</h1>
@@ -93,7 +93,7 @@
         </div>
         <!-- save button -->
         <div>
-          <button id="save" class="mdc-button mdc-button--raised">
+          <button type="submit" id="save" class="mdc-button mdc-button--raised">
             <span class="mdc-button__ripple"></span>
             <span class="mdc-button__touch"></span>
             <span class="mdc-button__label">Save</span>

@@ -44,4 +44,5 @@
   });
   changePageTitle("Sell");
   renderSell();
+  setActiveListElement("list-item-sell");
 </script>
