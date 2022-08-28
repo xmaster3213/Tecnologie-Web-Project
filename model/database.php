@@ -26,7 +26,8 @@ class Database {
         }
         return false;
     }
-
+    
+    // TODO: Preatty sure this is useless
     public function action($query = "" , $params = []) {
         try {
             $stmt = $this->executeStatement( $query , $params );
