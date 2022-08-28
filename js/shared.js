@@ -396,13 +396,7 @@ async function renderHistoryCards(url) {
     const cardsGrid = document.getElementById("cards");
     for(const product of products){
       allProducts.push(product);
-      // if(IS_DESKTOP) {
-      //   cardsGrid.appendChild() //TODO: create createHistoryCardDesktop function
-      // } else {
-      //   cardsGrid.appendChild(createHistoryCard(product.product_image, product.name, product.seller, product.price, product.date, product.time));
-      // }
       cardsGrid.appendChild(createHistoryCard(product.product_image, product.name, product.seller, product.price, product.date, product.time));
-
     }
   }
 }
