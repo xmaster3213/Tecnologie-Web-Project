@@ -24,9 +24,6 @@ const fadeContent = (element, opacity, duration = 300) => {
   })
 }
 
-// function 
-
-// TODO
 const getCardContent = (page, name, description, price, product_image, quantity, seller, seller_image, id, fun) => {
   let action = "";
   switch (page) {
@@ -170,7 +167,6 @@ async function createZoomedCard(card) {
   return cardClone;
 }
 
-// TODO
 const onCardClick = async (e) => {
   const card = e.currentTarget.parentNode;
   const cardClone = await createZoomedCard(card);
