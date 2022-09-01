@@ -116,7 +116,8 @@ const onClickAddNewProduct = async (e) => {
 }
 
 // check login credentials and in case of success redirect to the home page
-const onLoginClick = async () => {
+const onLoginClick = async (event) => {
+  event.preventDefault();
   const userInput = document.getElementById("username");
   const username = userInput.value;
   const passInput = document.getElementById("password");
@@ -154,6 +155,7 @@ const onConfirmPurchaseClick = async (e) => {
 
 // edit the current product informations on the database
 const onEditProductClick = async (e) => {
+  e.preventDefault();
   console.log('edit');
   const url = new URL(window.location.href);
   if (url.searchParams.has('id')) {
@@ -180,6 +182,7 @@ const onEditProductClick = async (e) => {
 
 // add a new product to the database
 const onAddProductClick = async (e) => {
+  e.preventDefault();
   const url = new URL('http://localhost/rest_api.php/product/add');
   const formData = new FormData();
   formData.append('seller', window.localStorage.getItem('username'));
@@ -202,6 +205,7 @@ const onAddProductClick = async (e) => {
 
 // edit the user informations on the database
 const onEditProfileClick = async (e) => {
+  e.preventDefault();
   const url = new URL('http://localhost/rest_api.php/user/edit');
   const formData = new FormData();
   const passwordInput = document.getElementById('password');
@@ -232,6 +236,7 @@ const onEditProfileClick = async (e) => {
 
 // add a new user to the database
 const onRegisterClick = async (e) => {
+  e.preventDefault();
   const url = new URL('http://localhost/rest_api.php/user/add');
   const formData = new FormData();
   formData.append('username', document.getElementById('username').value);
