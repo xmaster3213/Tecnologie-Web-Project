@@ -32,6 +32,7 @@ class Cart {
     this.#saveCart();
   }
 
+  // clear the cart
   empty() {
     window.localStorage.removeItem(`cart-${this.#username}`);
   }
@@ -57,23 +58,26 @@ const IS_DESKTOP = screen.width > 700;
 // sleep function(@params milliseconds to wait)
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
+// check if the user is logged in
 function checkLogged() {
   if (!window.sessionStorage.getItem('logged')) {
     window.location.href = "http://localhost/login.php";
   }
 }
 
+// logout the user
 function logout() {
   window.sessionStorage.clear();
 }
 
-// remove element from cart
+// remove thge product from the cart
 const onRemoveFromCartClick = async (e) => {
   element = e.currentTarget.parentNode;
   cart.removeElement(element.id);
   element.remove();
 }
 
+// remove the product from the cart when the card is zoomed
 const onRemoveFromZoomedCartClick = async (e) => {
   element = e.currentTarget.parentNode;
   cart.removeElement(element.id);
@@ -81,7 +85,7 @@ const onRemoveFromZoomedCartClick = async (e) => {
   renderCart();
 }
 
-// add element to cart
+// add the product to the cart
 const onAddToCartClick = async (e) => {
   element = e.currentTarget.parentNode;
   let product = allProducts.find(el => el.id == element.id);
@@ -92,22 +96,26 @@ const onAddToCartClick = async (e) => {
     }
   }
   if(product.quantity <= 0 || productInCart >= product.quantity) {
+    console.log("out of stock");
     e.currentTarget.disabled = true;
   } else {
     cart.addElement(product);
   }
 }
 
+// go to the page with the product details
 const onEditClick = async (e) => {
   const url = new URL('http://localhost/edit_product.php');
   url.searchParams.append('id', e.currentTarget.parentNode.id);
   window.location.href = url;
 }
 
+// go to the page to add a new product
 const onClickAddNewProduct = async (e) => {
   window.location.href = 'http://localhost/edit_product.php';
 }
 
+// check login credentials and in case of success redirect to the home page
 const onLoginClick = async () => {
   const userInput = document.getElementById("username");
   const username = userInput.value;
@@ -130,6 +138,7 @@ const onLoginClick = async () => {
   }
 }
 
+// confirm the purchase for all products in the cart, then empty the cart
 const onConfirmPurchaseClick = async (e) => {
   for(const card of cart.getProducts()) {
     const url = new URL('http://localhost/rest_api.php/sale/add');
@@ -143,6 +152,7 @@ const onConfirmPurchaseClick = async (e) => {
   window.location.href = 'http://localhost/home.php';
 }
 
+// edit the current product informations on the database
 const onEditProductClick = async (e) => {
   console.log('edit');
   const url = new URL(window.location.href);
@@ -168,6 +178,7 @@ const onEditProductClick = async (e) => {
   }
 }
 
+// add a new product to the database
 const onAddProductClick = async (e) => {
   const url = new URL('http://localhost/rest_api.php/product/add');
   const formData = new FormData();
@@ -189,6 +200,7 @@ const onAddProductClick = async (e) => {
   res.ok ? window.location.href = 'http://localhost/sell.php' : alert('Error adding product');
 }
 
+// edit the user informations on the database
 const onEditProfileClick = async (e) => {
   const url = new URL('http://localhost/rest_api.php/user/edit');
   const formData = new FormData();
@@ -218,6 +230,7 @@ const onEditProfileClick = async (e) => {
   }
 }
 
+// add a new user to the database
 const onRegisterClick = async (e) => {
   const url = new URL('http://localhost/rest_api.php/user/add');
   const formData = new FormData();
@@ -285,6 +298,7 @@ function createMaterialIcon(action, onClickFunction) {
   return container;
 }
 
+// draw card header with date and time
 function createDateTimeHeader(date, time, seller) {
   // creating container
   const container = document.createElement("div");
@@ -296,7 +310,7 @@ function createDateTimeHeader(date, time, seller) {
   return container;
 }
 
-// assembly a standard card
+// assembly a standard card for mobile
 // @id: id of the product
 // @product_image: image of the product
 // @name: name of the product
@@ -305,7 +319,7 @@ function createDateTimeHeader(date, time, seller) {
 // @button: the action button of the card, setted to default = null
 // @onCardClickFunction: function to perform when clicking on the card
 // return: node
-function createCard(id, product_image, name, seller, price, button = null, onCardClickFunction) {
+function createCard(id, product_image, name, seller, price, quantity, button = null, onCardClickFunction) {
   const card = document.createElement("div");
   card.classList.add("card", "mdc-card");
   card.id = id;
@@ -316,11 +330,15 @@ function createCard(id, product_image, name, seller, price, button = null, onCar
   infoText.addEventListener('click', onCardClickFunction);
   card.appendChild(infoText);
   if(button != null) {
+    if (window.VIEW == 'HOME' && quantity <= 0) {
+      button.classList.add('mdc-card__action__disabled');
+    }
     card.appendChild(button);
   }
   return card;
 }
 
+// draw a card for the history of the user
 function createHistoryCard(product_image, name, seller, price, date, time) {
   const card = document.createElement("div");
   card.classList.add("mdc-card");
@@ -354,7 +372,8 @@ function renderCart() {
         product.product_image, 
         product.name, 
         product.seller, 
-        product.price, 
+        product.price,
+        product.quantity,
         createMaterialIcon("remove_shopping_cart", onRemoveFromCartClick), 
         onCardClick
       ));
@@ -381,12 +400,13 @@ async function renderCards(buttonText, buttonOnClickFunction, url) {
         card.classList.add('mdc-card');
         cardsGrid.appendChild(card);
       } else {
-        cardsGrid.appendChild(createCard(product.id, product.product_image, product.name, product.seller, product.price, createMaterialIcon(buttonText, buttonOnClickFunction), onCardClick));
+        cardsGrid.appendChild(createCard(product.id, product.product_image, product.name, product.seller, product.price, product.quantity, createMaterialIcon(buttonText, buttonOnClickFunction), onCardClick));
       }
     }
   }
 }
 
+// render the elements in the history
 async function renderHistoryCards(url) {
   const response = await fetch(url, {
     method: 'GET'
@@ -421,15 +441,15 @@ function renderHome() {
   renderCards("add_shopping_cart", onAddToCartClick, url);
   const main = document.getElementById('main-content');
   main.onscroll = function(ev) {
-    if ((main.offsetHeight + main.scrollTop) >= main.scrollHeight)
-      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-        // you're at the bottom of the page
-        offset += CARDS_LOADED;
-        renderHome();
+    if ((main.offsetHeight + main.scrollTop) >= main.scrollHeight) {
+      // you're at the bottom of the page
+      offset += CARDS_LOADED;
+      renderHome();
     }
   };
 }
 
+// initialize the sell page
 function renderSell() {
   checkLogged();
   const button = document.getElementById('add-product');
@@ -443,8 +463,7 @@ function renderSell() {
   renderCards("edit", onEditClick, url);
   const main = document.getElementById('main-content');
   main.onscroll = function(ev) {
-    if ((main.offsetHeight + main.scrollTop) >= main.scrollHeight)
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+    if ((main.offsetHeight + main.scrollTop) >= main.scrollHeight) {
       // you're at the bottom of the page
       offset += CARDS_LOADED;
       renderSell();
@@ -452,6 +471,7 @@ function renderSell() {
   };
 }
 
+// initialize the history page
 function renderHistory() {
   checkLogged();
   const CARDS_LOADED = 50;
@@ -463,7 +483,6 @@ function renderHistory() {
   const main = document.getElementById('main-content');
   main.onscroll = function(ev) {
     if ((main.offsetHeight + main.scrollTop) >= main.scrollHeight) {
-      console.log(offset);
       // you're at the bottom of the page
       offset += CARDS_LOADED;
       renderHistory();
@@ -478,6 +497,7 @@ function changePageTitle(title) {
   pageTitle.innerHTML = title;
 }
 
+// initialize the login page
 function initializeLogin() {
   $('#form').submit(onLoginClick);
   const userInput = document.getElementById("username");
@@ -491,10 +511,12 @@ function initializeLogin() {
   }
 }
 
+// initialize the register page
 function initializeRegister() {
   $('#form').submit(onRegisterClick);
 }
 
+// initialize the profile page
 async function initializeProfile() {
   checkLogged();
   $('#form').submit(onEditProfileClick);
@@ -513,6 +535,7 @@ async function initializeProfile() {
   [].forEach.call(labels, label => label.classList.add('mdc-floating-label--float-above'));
 }
 
+// initialize the product page
 async function initializeEditproduct() {
   checkLogged();
   const currentUrl = new URL(window.location.href);

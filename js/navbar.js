@@ -1,5 +1,7 @@
+// current notifications offset
 let notificationsOffset = 0;
 
+// load profile data
 async function loadProfile() {
   let user = window.sessionStorage.getItem('profile');
   if (!user) {
@@ -20,6 +22,7 @@ async function loadProfile() {
   document.getElementById('navbar-email').innerText = user.email;
 }
 
+// initialize and draw navbar
 async function initializeNavbar() {
   const div = document.getElementById('modal-div')
   const aside = document.getElementById('modal-aside')
@@ -80,6 +83,7 @@ async function initializeNavbar() {
   
 }
 
+// reset navbar
 const resetNavbar = async (e) => {
   const navbar = document.getElementById('navbar');
   navbar.classList.remove('background-white');
@@ -100,6 +104,7 @@ const resetNavbar = async (e) => {
   initializeNavbar();
 }
 
+// draw search bar
 const searchFunction = async (e) => {
   const navbar = document.getElementById('navbar');
   navbar.classList.add('background-white');
@@ -131,6 +136,7 @@ const searchFunction = async (e) => {
   navbarEnd.appendChild(resetNavbarButton);
 }
 
+// draw notification card
 function createNotificationsCard(description, date, time, checked) {
   // card
   const card = document.createElement('div');
@@ -156,6 +162,7 @@ function createNotificationsCard(description, date, time, checked) {
   return card;
 }
 
+// draw notification panel
 function renderNotificationsMenu() {
   const container = document.createElement('div');
   container.id = 'notifications-menu';
@@ -187,6 +194,7 @@ function renderNotificationsMenu() {
     top: 91px;
     left: 35px;
   `;
+  // mark read all notifications
   closeButton.addEventListener('click', async () => {
     const element = document.getElementById('notifications-menu');
     const url = new URL('http://localhost/rest_api.php/notification/clearUnread');
@@ -205,6 +213,7 @@ function renderNotificationsMenu() {
   main.appendChild(container);
 }
 
+// create notification page
 const openNotifications = async (e) => {
   const url = new URL('http://localhost/rest_api.php/notification/list');
 
@@ -238,6 +247,7 @@ const openNotifications = async (e) => {
   }
 }
 
+// set current page in navbar
 function setActiveListElement(elementID) {
   const elements = document.getElementsByClassName('mdc-list-item');
   for (const element of elements) {
@@ -248,24 +258,6 @@ function setActiveListElement(elementID) {
   }
 }
 
-
-
-{/* <header id="navbar" class="mdc-top-app-bar app-bar mdc-top-app-bar--fixed" id="app-bar">
-  <div class="mdc-top-app-bar__row">
-    <section id="navbar-start" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-      <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" aria-label="Open navigation menu">menu</button>
-      <span id="page_title" class="mdc-top-app-bar__title"></span>
-    </section>
-    <section id="navbar-end" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
-      <a href="cart.php">
-        <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Shopping cart">shopping_cart</button>
-      </a>  
-      <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Notifications">notifications</button>
-      <button id="search" class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Search">search</button>
-    </section>
-  </div>
-</header> */}
-
-
+// initialize navbar
 initializeNavbar();
 

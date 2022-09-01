@@ -1,3 +1,4 @@
+// start expansion animation
 const toggleExpansion = (element, to, duration = 350) => {
   return new Promise((res) => {
     element.animate([
@@ -12,6 +13,7 @@ const toggleExpansion = (element, to, duration = 350) => {
   })
 }
 
+// fade content
 const fadeContent = (element, opacity, duration = 300) => {
   return new Promise(res => {
     [...element.children].forEach((child) => {
@@ -24,6 +26,7 @@ const fadeContent = (element, opacity, duration = 300) => {
   })
 }
 
+// create the card content
 const getCardContent = (page, name, description, price, product_image, quantity, seller, seller_image, id, fun) => {
   let action = "";
   switch (page) {
@@ -107,6 +110,7 @@ const getCardContent = (page, name, description, price, product_image, quantity,
   return zoomedCardContainer;
 }
 
+// create the zoomed card
 async function createZoomedCard(card) {
   // get the info of the selected card
   // clone the card
@@ -167,6 +171,7 @@ async function createZoomedCard(card) {
   return cardClone;
 }
 
+// zoom in the card
 const onCardClick = async (e) => {
   const card = e.currentTarget.parentNode;
   const cardClone = await createZoomedCard(card);
