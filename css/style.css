@@ -272,6 +272,12 @@ form label {
   width: 100%;
 }
 
+.mdc-card__action__disabled {
+  background-color: #ff726f;
+  cursor: default;
+  pointer-events: none;
+}
+
 /* Desktop */
 @media only screen and (min-width: 701px) {
   
